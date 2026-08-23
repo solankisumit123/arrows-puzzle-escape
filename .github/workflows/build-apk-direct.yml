@@ -25,22 +25,23 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Cordova & Android Tools
+      - name: Build Android Project with Capacitor
         run: |
-          npm install -g cordova
+          mkdir build_app && cd build_app
+          npm init -y
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npx cap init ArrowsPuzzle com.arrowspuzzle.escape --web-dir ../web
+          npx cap add android
+          npx cap sync android
 
-      - name: Create Cordova Project & Add Web Files
-        run: |
-          cordova create arrows_app com.arrowspuzzle.escape "ArrowsPuzzle"
-          cd arrows_app
-          rm -rf www/*
-          cp -r ../web/* www/
-          cordova platform add android@12.0.1
-          cordova build android --debug
+          # Build APK with Gradle
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ArrowsPuzzle-Debug-APK
-          path: arrows_app/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+          path: build_app/android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 14
