@@ -23,16 +23,16 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Setup Node.js
+      - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Build Android Project with Capacitor
         run: |
           mkdir build_app && cd build_app
           npm init -y
-          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
+          npm install @capacitor/core @capacitor/cli @capacitor/android
           npx cap init ArrowsPuzzle com.arrowspuzzle.escape --web-dir ../web
           npx cap add android
           npx cap sync android
