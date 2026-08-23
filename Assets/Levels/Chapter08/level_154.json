@@ -1,0 +1,190 @@
+﻿{
+    "chapterId":  8,
+    "optimalMoves":  23,
+    "gridSize":  9,
+    "isTutorial":  false,
+    "chapterTheme":  "sky",
+    "tutorialStep":  0,
+    "levelId":  154,
+    "gates":  [
+                  {
+                      "color":  "red",
+                      "acceptedColors":  [
+                                             "red"
+                                         ],
+                      "isMultiColor":  false,
+                      "side":  "right",
+                      "index":  2
+                  }
+              ],
+    "blocks":  [
+                   {
+                       "row":  2,
+                       "oneWayPositive":  false,
+                       "id":  "b_goal",
+                       "type":  "normal",
+                       "color":  "red",
+                       "orientation":  "H",
+                       "isGoal":  true,
+                       "col":  1,
+                       "isLocked":  false,
+                       "length":  2
+                   },
+                   {
+                       "row":  2,
+                       "oneWayPositive":  false,
+                       "id":  "b_obs_1",
+                       "type":  "normal",
+                       "color":  "blue",
+                       "orientation":  "V",
+                       "isGoal":  false,
+                       "col":  4,
+                       "isLocked":  false,
+                       "length":  2
+                   },
+                   {
+                       "row":  4,
+                       "oneWayPositive":  false,
+                       "id":  "b_obs_2",
+                       "type":  "normal",
+                       "color":  "green",
+                       "orientation":  "H",
+                       "isGoal":  false,
+                       "col":  0,
+                       "isLocked":  false,
+                       "length":  2
+                   },
+                   {
+                       "row":  6,
+                       "oneWayPositive":  false,
+                       "id":  "b_obs_3",
+                       "type":  "normal",
+                       "color":  "yellow",
+                       "orientation":  "V",
+                       "isGoal":  false,
+                       "col":  3,
+                       "isLocked":  false,
+                       "length":  3
+                   },
+                   {
+                       "row":  1,
+                       "oneWayPositive":  false,
+                       "id":  "b_obs_4",
+                       "type":  "normal",
+                       "color":  "purple",
+                       "orientation":  "H",
+                       "isGoal":  false,
+                       "col":  6,
+                       "isLocked":  false,
+                       "length":  2
+                   },
+                   {
+                       "row":  3,
+                       "oneWayPositive":  false,
+                       "id":  "b_obs_5",
+                       "type":  "normal",
+                       "color":  "orange",
+                       "orientation":  "V",
+                       "isGoal":  false,
+                       "col":  2,
+                       "isLocked":  false,
+                       "length":  2
+                   },
+                   {
+                       "row":  5,
+                       "oneWayPositive":  false,
+                       "id":  "b_obs_6",
+                       "type":  "normal",
+                       "color":  "red",
+                       "orientation":  "H",
+                       "isGoal":  false,
+                       "col":  5,
+                       "isLocked":  false,
+                       "length":  3
+                   },
+                   {
+                       "row":  0,
+                       "oneWayPositive":  false,
+                       "id":  "b_obs_7",
+                       "type":  "normal",
+                       "color":  "blue",
+                       "orientation":  "V",
+                       "isGoal":  false,
+                       "col":  1,
+                       "isLocked":  false,
+                       "length":  2
+                   },
+                   {
+                       "row":  2,
+                       "oneWayPositive":  false,
+                       "id":  "b_obs_8",
+                       "type":  "normal",
+                       "color":  "green",
+                       "orientation":  "H",
+                       "isGoal":  false,
+                       "col":  4,
+                       "isLocked":  false,
+                       "length":  2
+                   },
+                   {
+                       "row":  4,
+                       "oneWayPositive":  false,
+                       "id":  "b_obs_9",
+                       "type":  "normal",
+                       "color":  "yellow",
+                       "orientation":  "V",
+                       "isGoal":  false,
+                       "col":  0,
+                       "isLocked":  false,
+                       "length":  3
+                   },
+                   {
+                       "row":  6,
+                       "oneWayPositive":  false,
+                       "id":  "b_obs_10",
+                       "type":  "normal",
+                       "color":  "purple",
+                       "orientation":  "H",
+                       "isGoal":  false,
+                       "col":  3,
+                       "isLocked":  false,
+                       "length":  2
+                   },
+                   {
+                       "row":  1,
+                       "oneWayPositive":  false,
+                       "id":  "b_obs_11",
+                       "type":  "normal",
+                       "color":  "orange",
+                       "orientation":  "V",
+                       "isGoal":  false,
+                       "col":  6,
+                       "isLocked":  false,
+                       "length":  2
+                   },
+                   {
+                       "row":  3,
+                       "oneWayPositive":  false,
+                       "id":  "b_obs_12",
+                       "type":  "normal",
+                       "color":  "red",
+                       "orientation":  "H",
+                       "isGoal":  false,
+                       "col":  2,
+                       "isLocked":  false,
+                       "length":  3
+                   },
+                   {
+                       "row":  5,
+                       "oneWayPositive":  false,
+                       "id":  "b_obs_13",
+                       "type":  "normal",
+                       "color":  "blue",
+                       "orientation":  "V",
+                       "isGoal":  false,
+                       "col":  5,
+                       "isLocked":  false,
+                       "length":  2
+                   }
+               ]
+}

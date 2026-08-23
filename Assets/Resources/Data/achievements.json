@@ -1,0 +1,14 @@
+﻿{
+  "achievements": [
+    { "id": "first_level", "title": "First Step", "description": "Complete your first level", "iconName": "ach_first", "targetValue": 1, "coinReward": 50 },
+    { "id": "ten_3stars", "title": "Triple Threat", "description": "Solve 10 levels with 3 stars", "iconName": "ach_stars", "targetValue": 10, "coinReward": 200 },
+    { "id": "no_hint_5", "title": "Pure Genius", "description": "Solve 5 levels in a row without hints", "iconName": "ach_nohint", "targetValue": 5, "coinReward": 150 },
+    { "id": "chapter1_done", "title": "Woodworker", "description": "Complete Chapter 1", "iconName": "ach_ch1", "targetValue": 20, "coinReward": 300 },
+    { "id": "chapter5_done", "title": "Temple Explorer", "description": "Complete Chapter 5", "iconName": "ach_ch5", "targetValue": 100, "coinReward": 500 },
+    { "id": "all_chapters", "title": "Puzzle Master", "description": "Complete all 10 chapters", "iconName": "ach_master", "targetValue": 200, "coinReward": 2000 },
+    { "id": "streak_7", "title": "7-Day Streak", "description": "Log in 7 days in a row", "iconName": "ach_streak7", "targetValue": 7, "coinReward": 350 },
+    { "id": "custom_puzzle", "title": "Photo Artist", "description": "Create your first custom photo puzzle", "iconName": "ach_photo", "targetValue": 1, "coinReward": 100 },
+    { "id": "speed_run", "title": "Speed Demon", "description": "Solve a level in under 30 seconds", "iconName": "ach_speed", "targetValue": 1, "coinReward": 200 },
+    { "id": "undo_never", "title": "No Regrets", "description": "Complete 10 levels without undo", "iconName": "ach_noundo", "targetValue": 10, "coinReward": 200 }
+  ]
+}

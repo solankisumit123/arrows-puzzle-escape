@@ -1,0 +1,14 @@
+﻿{
+  "chapters": [
+    { "chapterId": 1, "name": "Wood Workshop", "theme": "wood", "startLevel": 1, "endLevel": 20, "colorPrimary": "#D9822B", "colorSecondary": "#8A4D1A", "backgroundGradientTop": "#2B1A0E", "backgroundGradientBottom": "#140D07" },
+    { "chapterId": 2, "name": "Ice Cave", "theme": "ice", "startLevel": 21, "endLevel": 40, "colorPrimary": "#40C4FF", "colorSecondary": "#0091EA", "backgroundGradientTop": "#092532", "backgroundGradientBottom": "#031016" },
+    { "chapterId": 3, "name": "Space Station", "theme": "space", "startLevel": 41, "endLevel": 60, "colorPrimary": "#B388FF", "colorSecondary": "#7C4DFF", "backgroundGradientTop": "#140B28", "backgroundGradientBottom": "#080410" },
+    { "chapterId": 4, "name": "Neon City", "theme": "neon", "startLevel": 61, "endLevel": 80, "colorPrimary": "#FF4081", "colorSecondary": "#F50057", "backgroundGradientTop": "#230616", "backgroundGradientBottom": "#0E0209" },
+    { "chapterId": 5, "name": "Jungle Temple", "theme": "jungle", "startLevel": 81, "endLevel": 100, "colorPrimary": "#00E676", "colorSecondary": "#00B0FF", "backgroundGradientTop": "#072614", "backgroundGradientBottom": "#021209" },
+    { "chapterId": 6, "name": "Crystal Caves", "theme": "crystal", "startLevel": 101, "endLevel": 120, "colorPrimary": "#E040FB", "colorSecondary": "#AA00FF", "backgroundGradientTop": "#220826", "backgroundGradientBottom": "#0E0310" },
+    { "chapterId": 7, "name": "Volcano", "theme": "volcano", "startLevel": 121, "endLevel": 140, "colorPrimary": "#FF6E40", "colorSecondary": "#FF3D00", "backgroundGradientTop": "#280F06", "backgroundGradientBottom": "#120602" },
+    { "chapterId": 8, "name": "Sky Fortress", "theme": "sky", "startLevel": 141, "endLevel": 160, "colorPrimary": "#80D8FF", "colorSecondary": "#00B0FF", "backgroundGradientTop": "#091D2C", "backgroundGradientBottom": "#040D14" },
+    { "chapterId": 9, "name": "Deep Ocean", "theme": "ocean", "startLevel": 161, "endLevel": 180, "colorPrimary": "#00B4D8", "colorSecondary": "#0077B6", "backgroundGradientTop": "#031926", "backgroundGradientBottom": "#010A0F" },
+    { "chapterId": 10, "name": "The Void", "theme": "void", "startLevel": 181, "endLevel": 200, "colorPrimary": "#B39DDB", "colorSecondary": "#512DA8", "backgroundGradientTop": "#0B0813", "backgroundGradientBottom": "#040307" }
+  ]
+}

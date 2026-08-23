@@ -1,0 +1,55 @@
+﻿{
+    "chapterId":  0,
+    "optimalMoves":  11,
+    "gridSize":  7,
+    "isTutorial":  false,
+    "chapterTheme":  "daily",
+    "tutorialStep":  0,
+    "levelId":  8,
+    "gates":  [
+                  {
+                      "color":  "red",
+                      "acceptedColors":  [
+                                             "red"
+                                         ],
+                      "isMultiColor":  false,
+                      "side":  "right",
+                      "index":  3
+                  }
+              ],
+    "blocks":  [
+                   {
+                       "row":  3,
+                       "id":  "b_goal",
+                       "type":  "normal",
+                       "color":  "red",
+                       "orientation":  "H",
+                       "isGoal":  true,
+                       "col":  1,
+                       "isLocked":  false,
+                       "length":  2
+                   },
+                   {
+                       "row":  1,
+                       "id":  "b_obs1",
+                       "type":  "ice",
+                       "color":  "blue",
+                       "orientation":  "V",
+                       "isGoal":  false,
+                       "col":  4,
+                       "isLocked":  false,
+                       "length":  3
+                   },
+                   {
+                       "row":  5,
+                       "id":  "b_obs2",
+                       "type":  "normal",
+                       "color":  "green",
+                       "orientation":  "H",
+                       "isGoal":  false,
+                       "col":  2,
+                       "isLocked":  false,
+                       "length":  2
+                   }
+               ]
+}

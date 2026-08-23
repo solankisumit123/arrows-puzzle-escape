@@ -1,0 +1,9 @@
+﻿{
+  "skins": [
+    { "id": "default", "name": "Classic Gloss", "cost": 0, "isUnlocked": true },
+    { "id": "wood", "name": "Polished Oak", "cost": 300, "isUnlocked": false },
+    { "id": "neon", "name": "Cyber Glow", "cost": 600, "isUnlocked": false },
+    { "id": "marble", "name": "Imperial Marble", "cost": 1000, "isUnlocked": false },
+    { "id": "crystal", "name": "Prismatic Quartz", "cost": 1500, "isUnlocked": false }
+  ]
+}
