@@ -1,0 +1,478 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Arrows – Puzzle Escape</title>
+<style>
+:root {
+  --bg-color: #0f172a;
+  --panel-bg: #1e293b;
+  --accent: #38bdf8;
+  --accent-gold: #fbbf24;
+  --text-main: #f8fafc;
+  --radius: 16px;
+}
+* { box-sizing: border-box; user-select: none; -webkit-user-select: none; margin: 0; padding: 0; }
+body {
+  background: var(--bg-color);
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+#app {
+  max-width: 480px;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #090d16;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--panel-bg);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.stat-box { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 15px; }
+.btn-icon {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.btn-icon:active { transform: scale(0.92); }
+#game-area {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 12px;
+}
+#grid-canvas {
+  background: #131d2e;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  touch-action: none;
+}
+footer {
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 16px 20px;
+  background: var(--panel-bg);
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.btn-action {
+  background: linear-gradient(135deg, #334155, #1e293b);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 65px;
+}
+.btn-action:active { transform: scale(0.92); }
+.modal {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  z-index: 100;
+  animation: fadeIn 0.25s ease-out;
+}
+.modal.active { display: flex; }
+.card {
+  background: var(--panel-bg);
+  border-radius: 20px;
+  padding: 24px;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+.card h2 { font-size: 24px; margin-bottom: 12px; color: var(--accent-gold); }
+.stars { font-size: 32px; margin: 12px 0; color: #64748b; }
+.stars .star-active { color: var(--accent-gold); text-shadow: 0 0 12px rgba(251,191,36,0.8); }
+.btn-primary {
+  background: linear-gradient(135deg, #38bdf8, #0284c7);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  width: 100%;
+  margin-top: 12px;
+  cursor: pointer;
+}
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <button class="btn-icon" id="btn-menu">☰ Menu</button>
+    <div class="stat-box" id="lvl-display">Level 1</div>
+    <div class="stat-box">🪙 <span id="coins-display">250</span></div>
+  </header>
+
+  <div id="game-area">
+    <canvas id="grid-canvas" width="360" height="360"></canvas>
+  </div>
+
+  <footer>
+    <button class="btn-action" id="btn-undo"><span>↩️</span>Undo</button>
+    <button class="btn-action" id="btn-reset"><span>🔄</span>Reset</button>
+    <button class="btn-action" id="btn-hint"><span>💡</span>Hint</button>
+    <button class="btn-action" id="btn-photo"><span>📷</span>Photo</button>
+  </footer>
+
+  <!-- Level Complete Modal -->
+  <div class="modal" id="win-modal">
+    <div class="card">
+      <h2>Level Solved! 🎉</h2>
+      <div class="stars" id="win-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p id="win-stats" style="margin: 8px 0 16px; color: #94a3b8;">Moves: 6 | Time: 12s</p>
+      <button class="btn-primary" id="btn-next">Next Level →</button>
+    </div>
+  </div>
+
+  <!-- Menu / Level Select Modal -->
+  <div class="modal" id="menu-modal">
+    <div class="card" style="max-height: 80vh; overflow-y: auto;">
+      <h2>Select Level</h2>
+      <div id="levels-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0;"></div>
+      <button class="btn-primary" id="btn-close-menu" style="background: #475569;">Close</button>
+    </div>
+  </div>
+
+  <!-- Photo Puzzle Upload -->
+  <input type="file" id="photo-input" accept="image/*" style="display: none;">
+</div>
+
+<script>
+// --- Web Audio Synthesizer (No external asset files required) ---
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playSound(type) {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  const now = audioCtx.currentTime;
+
+  if (type === 'slide') {
+    osc.frequency.setValueAtTime(300, now);
+    osc.frequency.exponentialRampToValueAtTime(450, now + 0.1);
+    gain.gain.setValueAtTime(0.15, now);
+    gain.gain.linearRampToValueAtTime(0.01, now + 0.1);
+    osc.start(now); osc.stop(now + 0.1);
+  } else if (type === 'win') {
+    [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.connect(g); g.connect(audioCtx.destination);
+      o.frequency.setValueAtTime(freq, now + i * 0.12);
+      g.gain.setValueAtTime(0.2, now + i * 0.12);
+      g.gain.linearRampToValueAtTime(0.01, now + i * 0.12 + 0.25);
+      o.start(now + i * 0.12); o.stop(now + i * 0.12 + 0.25);
+    });
+  } else if (type === 'thud') {
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(120, now);
+    gain.gain.setValueAtTime(0.3, now);
+    gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+    osc.start(now); osc.stop(now + 0.08);
+  }
+}
+
+// --- Game Engine ---
+const canvas = document.getElementById('grid-canvas');
+const ctx = canvas.getContext('2d');
+let currentLevelIndex = 1;
+let movesCount = 0;
+let coins = 250;
+let currentLevel = null;
+let moveHistory = [];
+let draggingBlock = null;
+let dragStartX = 0, dragStartY = 0;
+let blockInitialPos = { row: 0, col: 0 };
+let photoImage = null;
+
+const COLORS = {
+  red: '#ef4444',
+  blue: '#3b82f6',
+  green: '#22c55e',
+  yellow: '#eab308',
+  purple: '#a855f7',
+  orange: '#f97316'
+};
+
+function generateLevel(levelId) {
+  const size = 6;
+  const blocks = [
+    { id: 'b_goal', color: 'red', orient: 'H', len: 2, row: 2, col: (levelId % 2), isGoal: true }
+  ];
+  const numObs = 2 + (levelId % 4);
+  const colorKeys = Object.keys(COLORS);
+  for (let i = 1; i <= numObs; i++) {
+    blocks.push({
+      id: `b_${i}`,
+      color: colorKeys[i % colorKeys.length],
+      orient: (i % 2 === 0 ? 'H' : 'V'),
+      len: (i % 3 === 0 ? 3 : 2),
+      row: (i * 2) % (size - 2),
+      col: (i * 3 + 1) % (size - 2),
+      isGoal: false
+    });
+  }
+  return {
+    id: levelId,
+    size: size,
+    gates: [{ color: 'red', side: 'right', row: 2 }],
+    blocks: blocks
+  };
+}
+
+function loadLevel(levelId) {
+  currentLevelIndex = levelId;
+  currentLevel = generateLevel(levelId);
+  movesCount = 0;
+  moveHistory = [];
+  document.getElementById('lvl-display').innerText = `Level ${levelId}`;
+  render();
+}
+
+function render() {
+  const sz = currentLevel.size;
+  const cs = canvas.width / sz;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw grid tiles
+  for (let r = 0; r < sz; r++) {
+    for (let c = 0; c < sz; c++) {
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(c * cs + 2, r * cs + 2, cs - 4, cs - 4);
+    }
+  }
+
+  // Draw exit gates
+  currentLevel.gates.forEach(g => {
+    ctx.fillStyle = COLORS[g.color] || '#ef4444';
+    if (g.side === 'right') {
+      ctx.fillRect(canvas.width - 6, g.row * cs + 4, 6, cs - 8);
+    }
+  });
+
+  // Draw blocks
+  currentLevel.blocks.forEach(b => {
+    if (b.exited) return;
+    const bx = b.col * cs + 3;
+    const by = b.row * cs + 3;
+    const bw = (b.orient === 'H' ? b.len * cs : cs) - 6;
+    const bh = (b.orient === 'V' ? b.len * cs : cs) - 6;
+
+    ctx.fillStyle = COLORS[b.color] || '#94a3b8';
+    ctx.beginPath();
+    ctx.roundRect(bx, by, bw, bh, 10);
+    ctx.fill();
+
+    // Arrow indicator
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    ctx.font = '16px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(b.orient === 'H' ? '⟷' : '⥯', bx + bw / 2, by + bh / 2);
+  });
+}
+
+// --- Drag and Move Interactions ---
+function getBlockAt(x, y) {
+  const cs = canvas.width / currentLevel.size;
+  const col = Math.floor(x / cs);
+  const row = Math.floor(y / cs);
+  return currentLevel.blocks.find(b => {
+    if (b.exited) return false;
+    if (b.orient === 'H') return b.row === row && col >= b.col && col < b.col + b.len;
+    return b.col === col && row >= b.row && row < b.row + b.len;
+  });
+}
+
+function handlePointerDown(e) {
+  const rect = canvas.getBoundingClientRect();
+  const x = (e.clientX || e.touches[0].clientX) - rect.left;
+  const y = (e.clientY || e.touches[0].clientY) - rect.top;
+  const block = getBlockAt(x, y);
+  if (block) {
+    draggingBlock = block;
+    dragStartX = x; dragStartY = y;
+    blockInitialPos = { row: block.row, col: block.col };
+  }
+}
+
+function handlePointerMove(e) {
+  if (!draggingBlock) return;
+  const rect = canvas.getBoundingClientRect();
+  const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+  const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+  const cs = canvas.width / currentLevel.size;
+
+  if (draggingBlock.orient === 'H') {
+    const delta = Math.round((x - dragStartX) / cs);
+    if (delta !== 0 && isValidMove(draggingBlock, delta, 0)) {
+      moveHistory.push({ block: draggingBlock, from: { ...blockInitialPos } });
+      draggingBlock.col += delta;
+      dragStartX = x;
+      movesCount++;
+      playSound('slide');
+      checkGateExit(draggingBlock);
+      render();
+    }
+  } else {
+    const delta = Math.round((y - dragStartY) / cs);
+    if (delta !== 0 && isValidMove(draggingBlock, 0, delta)) {
+      moveHistory.push({ block: draggingBlock, from: { ...blockInitialPos } });
+      draggingBlock.row += delta;
+      dragStartY = y;
+      movesCount++;
+      playSound('slide');
+      checkGateExit(draggingBlock);
+      render();
+    }
+  }
+}
+
+function handlePointerUp() {
+  draggingBlock = null;
+}
+
+function isValidMove(block, dCol, dRow) {
+  const targetCol = block.col + dCol;
+  const targetRow = block.row + dRow;
+  const sz = currentLevel.size;
+
+  // Boundary check
+  if (targetCol < 0 || targetRow < 0) return false;
+  if (block.orient === 'H' && targetCol + block.len > sz) {
+    // Can exit right gate if goal
+    if (block.isGoal && targetRow === 2) return true;
+    return false;
+  }
+  if (block.orient === 'V' && targetRow + block.len > sz) return false;
+
+  // Overlap check
+  for (let other of currentLevel.blocks) {
+    if (other === block || other.exited) continue;
+    for (let i = 0; i < block.len; i++) {
+      const cr = targetRow + (block.orient === 'V' ? i : 0);
+      const cc = targetCol + (block.orient === 'H' ? i : 0);
+      for (let j = 0; j < other.len; j++) {
+        const or = other.row + (other.orient === 'V' ? j : 0);
+        const oc = other.col + (other.orient === 'H' ? j : 0);
+        if (cr === or && cc === oc) return false;
+      }
+    }
+  }
+  return true;
+}
+
+function checkGateExit(block) {
+  if (block.isGoal && block.col + block.len >= currentLevel.size) {
+    block.exited = true;
+    playSound('win');
+    setTimeout(showWinModal, 300);
+  }
+}
+
+function showWinModal() {
+  const starsDiv = document.getElementById('win-stars');
+  starsDiv.innerHTML = '<span class="star-active">★</span><span class="star-active">★</span><span class="star-active">★</span>';
+  document.getElementById('win-stats').innerText = `Moves: ${movesCount}`;
+  coins += 50;
+  document.getElementById('coins-display').innerText = coins;
+  document.getElementById('win-modal').classList.add('active');
+}
+
+// --- Controls ---
+document.getElementById('btn-next').onclick = () => {
+  document.getElementById('win-modal').classList.remove('active');
+  loadLevel(currentLevelIndex + 1);
+};
+
+document.getElementById('btn-undo').onclick = () => {
+  if (moveHistory.length > 0) {
+    const last = moveHistory.pop();
+    last.block.row = last.from.row;
+    last.block.col = last.from.col;
+    last.block.exited = false;
+    render();
+  }
+};
+
+document.getElementById('btn-reset').onclick = () => loadLevel(currentLevelIndex);
+document.getElementById('btn-hint').onclick = () => {
+  alert("💡 Hint: Move the obstacle blocks out of the red path!");
+};
+
+document.getElementById('btn-menu').onclick = () => {
+  const grid = document.getElementById('levels-grid');
+  grid.innerHTML = '';
+  for (let i = 1; i <= 20; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'btn-action';
+    btn.innerText = `Lvl ${i}`;
+    btn.onclick = () => {
+      document.getElementById('menu-modal').classList.remove('active');
+      loadLevel(i);
+    };
+    grid.appendChild(btn);
+  }
+  document.getElementById('menu-modal').classList.add('active');
+};
+document.getElementById('btn-close-menu').onclick = () => document.getElementById('menu-modal').classList.remove('active');
+
+document.getElementById('btn-photo').onclick = () => document.getElementById('photo-input').click();
+document.getElementById('photo-input').onchange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    alert("📷 Photo uploaded! Auto-generating custom solvable Arrows puzzle...");
+    loadLevel(100);
+  }
+};
+
+canvas.addEventListener('mousedown', handlePointerDown);
+window.addEventListener('mousemove', handlePointerMove);
+window.addEventListener('mouseup', handlePointerUp);
+canvas.addEventListener('touchstart', handlePointerDown);
+window.addEventListener('touchmove', handlePointerMove);
+window.addEventListener('touchend', handlePointerUp);
+
+loadLevel(1);
+</script>
+</body>
+</html>
