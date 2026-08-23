@@ -3,62 +3,66 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Arrows Out – Tap to Clear</title>
+<title>Arrows Out – Tap to Clear (Official Mobile Game)</title>
 <style>
 :root {
-  --bg-color: #f5eedc;
-  --bg-card: #e8deca;
-  --bg-banner: #dfd0b5;
-  --text-primary: #543d2b;
-  --text-muted: #8c735d;
-  --accent-gold: #b88235;
-  --line-color: #4a3528;
+  --bg-color: #f6eedf;
+  --bg-card: #ece2d0;
+  --bg-banner: #dfceb2;
+  --text-main: #523b28;
+  --text-sub: #856d58;
+  --accent-gold: #b37d2f;
+  --line-main: #4a3525;
   --line-highlight: #0284c7;
-  --line-error: #dc2626;
+  --line-error: #e11d48;
   --drop-active: #38bdf8;
-  --drop-lost: #dfd5c4;
+  --drop-empty: #dfd4c2;
+  --shadow-color: rgba(82, 59, 40, 0.12);
 }
 
 [data-theme="dark"] {
-  --bg-color: #1a1715;
-  --bg-card: #27221f;
-  --bg-banner: #332d29;
-  --text-primary: #ebdcc9;
-  --text-muted: #9e9182;
+  --bg-color: #1c1815;
+  --bg-card: #2b2520;
+  --bg-banner: #362e28;
+  --text-main: #f3e6d5;
+  --text-sub: #a89886;
   --accent-gold: #f59e0b;
-  --line-color: #d8c7b5;
+  --line-main: #dfd0be;
   --line-highlight: #38bdf8;
   --line-error: #ef4444;
   --drop-active: #38bdf8;
-  --drop-lost: #443c35;
+  --drop-empty: #453c34;
+  --shadow-color: rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="mint"] {
-  --bg-color: #eaf4ec;
-  --bg-card: #d3e8d6;
-  --bg-banner: #c2dec6;
-  --text-primary: #1e4620;
-  --text-muted: #4e7a51;
-  --accent-gold: #e65100;
-  --line-color: #1b5e20;
+  --bg-color: #eaf5ec;
+  --bg-card: #d3ead7;
+  --bg-banner: #bfdfc4;
+  --text-main: #18421c;
+  --text-sub: #457549;
+  --accent-gold: #d84315;
+  --line-main: #1b5e20;
   --line-highlight: #0284c7;
-  --line-error: #d32f2f;
+  --line-error: #c62828;
   --drop-active: #00bcd4;
-  --drop-lost: #c8d6c9;
+  --drop-empty: #c4d7c7;
+  --shadow-color: rgba(24, 66, 28, 0.12);
 }
 
 [data-theme="rose"] {
-  --bg-color: #fbeef2;
-  --bg-card: #f5d3dc;
-  --bg-banner: #ebbfc9;
-  --text-primary: #5c1d2e;
-  --text-muted: #8c4357;
+  --bg-color: #fcecef;
+  --bg-card: #f7d4dc;
+  --bg-banner: #ebbfc8;
+  --text-main: #571626;
+  --text-sub: #873e51;
   --accent-gold: #c2185b;
-  --line-color: #4a1525;
+  --line-main: #450a18;
   --line-highlight: #0284c7;
   --line-error: #e11d48;
   --drop-active: #ec4899;
-  --drop-lost: #e2c9cf;
+  --drop-empty: #e2c7ce;
+  --shadow-color: rgba(87, 22, 38, 0.12);
 }
 
 * {
@@ -72,7 +76,7 @@
 
 body {
   background-color: var(--bg-color);
-  color: var(--text-primary);
+  color: var(--text-main);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   height: 100vh;
   width: 100vw;
@@ -80,7 +84,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.25s ease;
 }
 
 #app {
@@ -90,6 +94,7 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
+  box-shadow: 0 0 50px rgba(0,0,0,0.06);
 }
 
 /* Header */
@@ -103,19 +108,19 @@ header {
 .icon-btn {
   background: none;
   border: none;
-  color: var(--text-primary);
+  color: var(--text-main);
   cursor: pointer;
   padding: 6px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.1s;
+  transition: transform 0.12s;
 }
-.icon-btn:active { transform: scale(0.9); }
+.icon-btn:active { transform: scale(0.88); }
 
 .level-title {
-  font-size: 23px;
+  font-size: 24px;
   font-weight: 800;
   color: var(--accent-gold);
   letter-spacing: 0.5px;
@@ -132,27 +137,27 @@ header {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 4px 22px 10px;
+  padding: 2px 22px 10px;
 }
 
 .water-drop {
   width: 16px;
-  height: 22px;
+  height: 23px;
   background: var(--drop-active);
   border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
   transform: rotate(-45deg);
-  box-shadow: 0 2px 4px rgba(56,189,248,0.25);
+  box-shadow: 0 2px 5px rgba(56,189,248,0.3);
   transition: background-color 0.25s, transform 0.25s;
 }
 
 .water-drop.lost {
-  background: var(--drop-lost);
-  transform: rotate(-45deg) scale(0.85);
+  background: var(--drop-empty);
+  transform: rotate(-45deg) scale(0.82);
   box-shadow: none;
 }
 
 /* Canvas Area */
-#canvas-container {
+#canvas-wrapper {
   flex: 1;
   display: flex;
   justify-content: center;
@@ -161,13 +166,27 @@ header {
   padding: 6px 12px;
 }
 
-#puzzle-canvas {
+#game-canvas {
   width: 100%;
   height: 100%;
-  max-width: 400px;
-  max-height: 440px;
+  max-width: 410px;
+  max-height: 450px;
   touch-action: none;
   cursor: pointer;
+}
+
+/* Tutorial / Hand cursor prompt */
+.hand-prompt {
+  position: absolute;
+  pointer-events: none;
+  font-size: 38px;
+  animation: tapFinger 1.2s infinite ease-in-out;
+  display: none;
+  z-index: 20;
+}
+@keyframes tapFinger {
+  0%, 100% { transform: scale(1) translate(0, 0); }
+  50% { transform: scale(0.85) translate(4px, 4px); }
 }
 
 /* Floating Action Buttons */
@@ -175,18 +194,18 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 32px;
+  gap: 34px;
   padding: 10px 16px;
 }
 
 .circle-btn {
-  width: 62px;
-  height: 62px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   background: #ffffff;
   border: 1px solid rgba(0,0,0,0.06);
-  color: var(--text-primary);
-  box-shadow: 0 5px 15px rgba(84, 61, 43, 0.12);
+  color: var(--text-main);
+  box-shadow: 0 6px 18px var(--shadow-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -196,8 +215,8 @@ header {
 }
 
 .circle-btn:active {
-  transform: scale(0.92);
-  box-shadow: 0 2px 6px rgba(84, 61, 43, 0.1);
+  transform: scale(0.9);
+  box-shadow: 0 2px 6px var(--shadow-color);
 }
 
 .badge {
@@ -208,8 +227,8 @@ header {
   color: #fff;
   font-size: 11px;
   font-weight: 900;
-  width: 20px;
-  height: 20px;
+  width: 21px;
+  height: 21px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -224,8 +243,8 @@ header {
   text-align: center;
   font-size: 22px;
   font-weight: 900;
-  color: var(--text-primary);
-  letter-spacing: 2px;
+  color: var(--text-main);
+  letter-spacing: 2.5px;
   border-top: 1px solid rgba(0,0,0,0.06);
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
 }
@@ -234,8 +253,8 @@ header {
 .modal {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(4px);
+  background: rgba(0,0,0,0.52);
+  backdrop-filter: blur(5px);
   display: none;
   justify-content: center;
   align-items: center;
@@ -246,50 +265,59 @@ header {
 
 .card {
   background: var(--bg-color);
-  color: var(--text-primary);
-  border-radius: 22px;
-  padding: 26px 22px;
+  color: var(--text-main);
+  border-radius: 24px;
+  padding: 28px 22px;
   width: 100%;
-  max-width: 340px;
+  max-width: 350px;
   text-align: center;
-  box-shadow: 0 16px 36px rgba(0,0,0,0.2);
+  box-shadow: 0 20px 45px rgba(0,0,0,0.25);
 }
-.card h2 { font-size: 24px; color: var(--accent-gold); margin-bottom: 8px; font-weight: 900; }
+.card h2 { font-size: 26px; color: var(--accent-gold); margin-bottom: 8px; font-weight: 900; }
 
 .btn-primary {
   background: var(--accent-gold);
   color: #fff;
   border: none;
-  padding: 14px;
-  border-radius: 28px;
-  font-size: 16px;
+  padding: 15px;
+  border-radius: 30px;
+  font-size: 17px;
   font-weight: 800;
   width: 100%;
   cursor: pointer;
   margin-top: 14px;
-  box-shadow: 0 4px 12px rgba(184, 130, 53, 0.3);
+  box-shadow: 0 5px 15px rgba(179, 125, 47, 0.35);
+  transition: transform 0.12s;
 }
 .btn-primary:active { transform: scale(0.96); }
 
 .levels-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  max-height: 260px;
+  gap: 12px;
+  max-height: 280px;
   overflow-y: auto;
-  margin: 14px 0;
+  margin: 16px 0;
 }
 .lvl-btn {
   background: var(--bg-card);
   border: none;
-  color: var(--text-primary);
-  padding: 10px;
-  border-radius: 12px;
+  color: var(--text-main);
+  padding: 12px;
+  border-radius: 14px;
   font-weight: 800;
-  font-size: 15px;
+  font-size: 16px;
   cursor: pointer;
 }
 .lvl-btn.active { background: var(--accent-gold); color: #fff; }
+
+/* Confetti particles canvas */
+#confetti-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 90;
+}
 
 @keyframes pop {
   from { opacity: 0; transform: scale(0.85); }
@@ -300,12 +328,14 @@ header {
 <body>
 
 <div id="app">
+  <canvas id="confetti-canvas"></canvas>
+
   <!-- Top Bar -->
   <header>
     <button class="icon-btn" id="btn-prev" title="Previous Level">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
     </button>
-    <div class="level-title" id="level-title">Level 10</div>
+    <div class="level-title" id="level-title">Level 40</div>
     <div class="header-right">
       <button class="icon-btn" id="btn-theme" title="Switch Theme">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg>
@@ -316,12 +346,13 @@ header {
     </div>
   </header>
 
-  <!-- Water Drops / Lives -->
+  <!-- Water Drops / Lives Bar -->
   <div class="lives-bar" id="lives-bar"></div>
 
   <!-- Maze Canvas -->
-  <div id="canvas-container">
-    <canvas id="puzzle-canvas"></canvas>
+  <div id="canvas-wrapper">
+    <canvas id="game-canvas"></canvas>
+    <div class="hand-prompt" id="hand-prompt">👆</div>
   </div>
 
   <!-- Floating Buttons -->
@@ -335,15 +366,15 @@ header {
     </button>
   </div>
 
-  <!-- Bottom Banner -->
+  <!-- Bottom Kraft Banner -->
   <div class="bottom-banner" id="bottom-banner">TAP TO CLEAR</div>
 
   <!-- Win Modal -->
   <div class="modal" id="win-modal">
     <div class="card">
-      <div style="font-size: 48px; margin-bottom: 8px;">🏆</div>
-      <h2>Silhouette Cleared!</h2>
-      <p style="color: var(--text-muted); font-size: 15px;">All arrow paths untangled.</p>
+      <div style="font-size: 52px; margin-bottom: 8px;">🎉</div>
+      <h2>Level Cleared!</h2>
+      <p style="color: var(--text-sub); font-size: 15px;">All arrow paths untangled.</p>
       <button class="btn-primary" id="btn-next">Next Level →</button>
     </div>
   </div>
@@ -351,9 +382,9 @@ header {
   <!-- Game Over Modal -->
   <div class="modal" id="gameover-modal">
     <div class="card">
-      <div style="font-size: 48px; margin-bottom: 8px;">💧</div>
-      <h2 style="color: #ef4444;">Out of Drops!</h2>
-      <p style="color: var(--text-muted); font-size: 15px;">You tapped blocked arrow paths.</p>
+      <div style="font-size: 52px; margin-bottom: 8px;">💧</div>
+      <h2 style="color: #e11d48;">Out of Drops!</h2>
+      <p style="color: var(--text-sub); font-size: 15px;">Blocked arrow paths tapped.</p>
       <button class="btn-primary" id="btn-retry">Try Again</button>
     </div>
   </div>
@@ -363,178 +394,228 @@ header {
     <div class="card">
       <h2>Select Level</h2>
       <div class="levels-grid" id="levels-grid"></div>
-      <button class="btn-primary" id="btn-close-levels" style="background: var(--bg-card); color: var(--text-primary);">Close</button>
+      <button class="btn-primary" id="btn-close-levels" style="background: var(--bg-card); color: var(--text-main);">Close</button>
     </div>
   </div>
 </div>
 
 <script>
-// --- Audio Synthesizer ---
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-function playAudio(type) {
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-  const now = audioCtx.currentTime;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.connect(gain); gain.connect(audioCtx.destination);
+// --- High-Fidelity Synthesized Audio Engine ---
+const AudioEngine = {
+  ctx: null,
+  init() {
+    if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (this.ctx.state === 'suspended') this.ctx.resume();
+  },
+  playEscape() {
+    this.init();
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.connect(gain); gain.connect(this.ctx.destination);
 
-  if (type === 'escape') {
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(520, now);
-    osc.frequency.exponentialRampToValueAtTime(1040, now + 0.16);
-    gain.gain.setValueAtTime(0.2, now);
-    gain.gain.linearRampToValueAtTime(0.01, now + 0.18);
-    osc.start(now); osc.stop(now + 0.18);
-  } else if (type === 'thud') {
+    osc.frequency.setValueAtTime(540, t);
+    osc.frequency.exponentialRampToValueAtTime(1080, t + 0.18);
+    gain.gain.setValueAtTime(0.2, t);
+    gain.gain.linearRampToValueAtTime(0.01, t + 0.2);
+    osc.start(t); osc.stop(t + 0.2);
+  },
+  playThud() {
+    this.init();
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.connect(gain); gain.connect(this.ctx.destination);
+
     osc.type = 'triangle';
-    osc.frequency.setValueAtTime(160, now);
-    osc.frequency.linearRampToValueAtTime(50, now + 0.12);
-    gain.gain.setValueAtTime(0.3, now);
-    gain.gain.linearRampToValueAtTime(0.01, now + 0.12);
-    osc.start(now); osc.stop(now + 0.12);
-  } else if (type === 'win') {
-    [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
-      const o = audioCtx.createOscillator();
-      const g = audioCtx.createGain();
-      o.connect(g); g.connect(audioCtx.destination);
-      o.frequency.setValueAtTime(f, now + i * 0.08);
-      g.gain.setValueAtTime(0.25, now + i * 0.08);
-      g.gain.linearRampToValueAtTime(0.01, now + i * 0.08 + 0.28);
-      o.start(now + i * 0.08); o.stop(now + i * 0.08 + 0.28);
+    osc.frequency.setValueAtTime(180, t);
+    osc.frequency.linearRampToValueAtTime(40, t + 0.14);
+    gain.gain.setValueAtTime(0.35, t);
+    gain.gain.linearRampToValueAtTime(0.01, t + 0.14);
+    osc.start(t); osc.stop(t + 0.14);
+  },
+  playWin() {
+    this.init();
+    const t = this.ctx.currentTime;
+    [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+      const o = this.ctx.createOscillator();
+      const g = this.ctx.createGain();
+      o.connect(g); g.connect(this.ctx.destination);
+      o.type = 'sine';
+      o.frequency.setValueAtTime(freq, t + i * 0.09);
+      g.gain.setValueAtTime(0.22, t + i * 0.09);
+      g.gain.linearRampToValueAtTime(0.01, t + i * 0.09 + 0.3);
+      o.start(t + i * 0.09); o.stop(t + i * 0.09 + 0.3);
     });
   }
-}
+};
 
-// --- Handcrafted Iconic Maze Silhouettes (Exact Matches from Screenshots) ---
-const SILHOUETTE_LEVELS = [
-  // 1. Trophy 🏆 (Screenshot Level 10)
+// --- Exact Dense Maze Silhouettes (Levels 40 Puppy, 27 Anchor, 10 Trophy) ---
+const LEVELS = [
+  // Level 40: Dense Puppy / Dog 🐕 (Screenshot 1)
   {
-    name: "Trophy",
-    banner: "EYE COMFORT",
+    level: 40,
+    name: "Puppy",
+    banner: "TAP TO CLEAR",
     lines: [
-      // Outer rim & handles (Outer unblocking arrows)
-      { id: 1, pts: [[20,30], [15,30], [15,42], [28,42]], dir: [1, 0] },
-      { id: 2, pts: [[80,30], [85,30], [85,42], [72,42]], dir: [-1, 0] },
-      { id: 3, pts: [[28,20], [28,16], [50,16], [50,22]], dir: [0, 1] },
-      { id: 4, pts: [[72,20], [72,16], [50,16]], dir: [-1, 0] },
-      { id: 5, pts: [[22,25], [35,25], [35,32]], dir: [0, 1] },
-      { id: 6, pts: [[78,25], [65,25], [65,32]], dir: [0, 1] },
-      // Center cup maze
-      { id: 7, pts: [[35,32], [42,32], [42,40], [58,40], [58,32], [65,32]], dir: [1, 0] },
-      { id: 8, pts: [[42,40], [42,48], [58,48]], dir: [1, 0] },
-      { id: 9, pts: [[28,42], [38,42], [38,52], [50,52]], dir: [1, 0] },
-      { id: 10, pts: [[72,42], [62,42], [62,52], [50,52]], dir: [-1, 0] },
-      // Stem & Base
-      { id: 11, pts: [[50,52], [50,65]], dir: [0, 1] },
-      { id: 12, pts: [[50,65], [44,65], [44,74], [35,74]], dir: [-1, 0] },
-      { id: 13, pts: [[50,65], [56,65], [56,74], [65,74]], dir: [1, 0] },
-      { id: 14, pts: [[35,74], [35,84], [48,84]], dir: [1, 0] },
-      { id: 15, pts: [[65,74], [65,84], [52,84]], dir: [-1, 0] },
-      { id: 16, pts: [[30,88], [70,88]], dir: [1, 0] }
+      // Snout & Head (Upper right)
+      { id: 1, pts: [[74,20], [88,20], [88,28], [78,28]], dir: [-1, 0] },
+      { id: 2, pts: [[78,28], [88,28], [88,34], [72,34]], dir: [-1, 0] },
+      { id: 3, pts: [[74,20], [68,20], [68,14], [60,14]], dir: [-1, 0] },
+      { id: 4, pts: [[60,14], [60,24], [70,24]], dir: [1, 0] },
+      { id: 5, pts: [[68,14], [74,14], [74,20]], dir: [0, 1] },
+      // Ears & Neck
+      { id: 6, pts: [[60,24], [64,24], [64,36], [58,36]], dir: [-1, 0] },
+      { id: 7, pts: [[70,24], [70,36], [74,36], [74,44]], dir: [0, 1] },
+      // Back & Tail (Upper left)
+      { id: 8, pts: [[60,36], [45,36], [45,26], [32,26]], dir: [-1, 0] },
+      { id: 9, pts: [[32,26], [18,26], [18,16], [22,16]], dir: [1, 0] },
+      { id: 10, pts: [[18,26], [18,36], [24,36]], dir: [1, 0] },
+      { id: 11, pts: [[24,36], [18,36], [18,48]], dir: [0, 1] },
+      // Chest & Center Body maze
+      { id: 12, pts: [[45,36], [45,46], [58,46], [58,54]], dir: [0, 1] },
+      { id: 13, pts: [[32,36], [32,48], [45,48]], dir: [1, 0] },
+      { id: 14, pts: [[72,34], [72,50], [64,50]], dir: [-1, 0] },
+      { id: 15, pts: [[74,44], [64,44], [64,56], [54,56]], dir: [-1, 0] },
+      { id: 16, pts: [[45,48], [45,60], [56,60]], dir: [1, 0] },
+      { id: 17, pts: [[32,48], [32,60], [22,60], [22,48]], dir: [0, -1] },
+      // Front Legs (Right side)
+      { id: 18, pts: [[64,56], [70,56], [70,78], [60,78]], dir: [-1, 0] },
+      { id: 19, pts: [[70,78], [74,78], [74,88]], dir: [0, 1] },
+      { id: 20, pts: [[60,78], [60,88], [68,88]], dir: [1, 0] },
+      // Hind Legs (Left side)
+      { id: 21, pts: [[22,60], [24,60], [24,78], [32,78]], dir: [1, 0] },
+      { id: 22, pts: [[24,78], [18,78], [18,88]], dir: [0, 1] },
+      { id: 23, pts: [[32,78], [32,88], [24,88]], dir: [-1, 0] },
+      // Belly & Inner paths
+      { id: 24, pts: [[45,60], [45,68], [54,68]], dir: [1, 0] },
+      { id: 25, pts: [[54,68], [54,74], [48,74]], dir: [-1, 0] }
     ]
   },
-  // 2. Anchor ⚓ (Screenshot Level 27)
+  // Level 27: Dense Anchor ⚓ (Screenshot 2)
   {
+    level: 27,
     name: "Anchor",
     banner: "10000+ LEVELS",
     lines: [
       // Top ring
-      { id: 1, pts: [[50,18], [42,18], [42,12], [58,12], [58,18], [50,18]], dir: [0, 1] },
-      { id: 2, pts: [[42,12], [36,12], [36,22]], dir: [0, 1] },
-      { id: 3, pts: [[58,12], [64,12], [64,22]], dir: [0, 1] },
+      { id: 1, pts: [[50,18], [40,18], [40,10], [60,10], [60,18], [50,18]], dir: [0, 1] },
+      { id: 2, pts: [[40,10], [32,10], [32,22]], dir: [0, 1] },
+      { id: 3, pts: [[60,10], [68,10], [68,22]], dir: [0, 1] },
       // Crossbar
-      { id: 4, pts: [[50,22], [50,32], [32,32], [32,28], [25,28]], dir: [-1, 0] },
-      { id: 5, pts: [[50,32], [68,32], [68,28], [75,28]], dir: [1, 0] },
+      { id: 4, pts: [[50,22], [50,32], [32,32], [32,28], [24,28]], dir: [-1, 0] },
+      { id: 5, pts: [[50,32], [68,32], [68,28], [76,28]], dir: [1, 0] },
+      { id: 6, pts: [[32,32], [32,38], [24,38]], dir: [-1, 0] },
+      { id: 7, pts: [[68,32], [68,38], [76,38]], dir: [1, 0] },
       // Flukes (Bottom curved arms)
-      { id: 6, pts: [[20,42], [20,62], [32,74], [44,78]], dir: [1, 0] },
-      { id: 7, pts: [[80,42], [80,62], [68,74], [56,78]], dir: [-1, 0] },
-      { id: 8, pts: [[20,42], [24,42], [24,52]], dir: [0, 1] },
-      { id: 9, pts: [[80,42], [76,42], [76,52]], dir: [0, 1] },
+      { id: 8, pts: [[18,42], [18,64], [30,76], [44,80]], dir: [1, 0] },
+      { id: 9, pts: [[82,42], [82,64], [70,76], [56,80]], dir: [-1, 0] },
+      { id: 10, pts: [[18,42], [24,42], [24,54]], dir: [0, 1] },
+      { id: 11, pts: [[82,42], [76,42], [76,54]], dir: [0, 1] },
+      { id: 12, pts: [[24,54], [30,54], [30,66], [42,66]], dir: [1, 0] },
+      { id: 13, pts: [[76,54], [70,54], [70,66], [58,66]], dir: [-1, 0] },
       // Center shank & crown
-      { id: 10, pts: [[50,32], [50,55], [44,55], [44,68]], dir: [0, 1] },
-      { id: 11, pts: [[50,55], [56,55], [56,68]], dir: [0, 1] },
-      { id: 12, pts: [[44,68], [50,68], [50,86]], dir: [0, 1] },
-      { id: 13, pts: [[44,78], [50,86], [56,78]], dir: [1, -1] }
+      { id: 14, pts: [[50,32], [50,56], [44,56], [44,70]], dir: [0, 1] },
+      { id: 15, pts: [[50,56], [56,56], [56,70]], dir: [0, 1] },
+      { id: 16, pts: [[44,70], [50,70], [50,88]], dir: [0, 1] },
+      { id: 17, pts: [[44,80], [50,88], [56,80]], dir: [1, -1] }
     ]
   },
-  // 3. Dog / Puppy 🐕 (Screenshot Level 40)
+  // Level 10: Trophy 🏆 (Screenshot 3)
   {
-    name: "Puppy",
-    banner: "TAP TO CLEAR",
+    level: 10,
+    name: "Trophy",
+    banner: "EYE COMFORT",
     lines: [
-      // Head & Snout
-      { id: 1, pts: [[68,20], [84,20], [84,30], [74,30]], dir: [-1, 0] },
-      { id: 2, pts: [[74,30], [84,30], [84,38], [70,38]], dir: [-1, 0] },
-      { id: 3, pts: [[68,20], [62,20], [62,14], [56,14]], dir: [-1, 0] },
-      { id: 4, pts: [[56,14], [56,26], [66,26]], dir: [1, 0] },
-      // Back & Tail
-      { id: 5, pts: [[56,26], [42,26], [42,34], [30,34]], dir: [-1, 0] },
-      { id: 6, pts: [[30,34], [18,34], [18,24], [22,24]], dir: [1, 0] },
-      { id: 7, pts: [[18,34], [18,44]], dir: [0, 1] },
-      // Body maze
-      { id: 8, pts: [[42,34], [42,46], [58,46], [58,54]], dir: [0, 1] },
-      { id: 9, pts: [[30,34], [30,50], [42,50]], dir: [1, 0] },
-      { id: 10, pts: [[70,38], [70,54], [64,54]], dir: [-1, 0] },
-      // Front & Hind Legs
-      { id: 11, pts: [[58,54], [68,54], [68,78], [60,78]], dir: [-1, 0] },
-      { id: 12, pts: [[68,78], [72,78], [72,86]], dir: [0, 1] },
-      { id: 13, pts: [[18,44], [24,44], [24,78], [32,78]], dir: [1, 0] },
-      { id: 14, pts: [[24,78], [20,78], [20,86]], dir: [0, 1] },
-      { id: 15, pts: [[42,50], [42,65], [52,65]], dir: [1, 0] }
-    ]
-  },
-  // 4. Heart ❤️
-  {
-    name: "Heart",
-    banner: "RELAXING MAZE",
-    lines: [
-      { id: 1, pts: [[50,28], [38,16], [24,22], [24,36], [50,68]], dir: [1, 1] },
-      { id: 2, pts: [[50,28], [62,16], [76,22], [76,36], [50,68]], dir: [-1, 1] },
-      { id: 3, pts: [[24,36], [36,36], [36,48], [50,48]], dir: [1, 0] },
-      { id: 4, pts: [[76,36], [64,36], [64,48], [50,48]], dir: [-1, 0] },
-      { id: 5, pts: [[50,48], [50,78]], dir: [0, 1] }
-    ]
-  },
-  // 5. Crown 👑
-  {
-    name: "Crown",
-    banner: "ROYAL ESCAPE",
-    lines: [
-      { id: 1, pts: [[50,20], [42,34], [25,26], [25,50]], dir: [0, 1] },
-      { id: 2, pts: [[50,20], [58,34], [75,26], [75,50]], dir: [0, 1] },
-      { id: 3, pts: [[25,50], [40,50], [40,62], [50,62]], dir: [1, 0] },
-      { id: 4, pts: [[75,50], [60,50], [60,62], [50,62]], dir: [-1, 0] },
-      { id: 5, pts: [[20,72], [80,72]], dir: [1, 0] },
-      { id: 6, pts: [[20,72], [20,82], [80,82]], dir: [1, 0] }
+      // Outer rim & handles
+      { id: 1, pts: [[20,30], [14,30], [14,44], [28,44]], dir: [1, 0] },
+      { id: 2, pts: [[80,30], [86,30], [86,44], [72,44]], dir: [-1, 0] },
+      { id: 3, pts: [[28,20], [28,16], [50,16], [50,22]], dir: [0, 1] },
+      { id: 4, pts: [[72,20], [72,16], [50,16]], dir: [-1, 0] },
+      { id: 5, pts: [[20,24], [36,24], [36,32]], dir: [0, 1] },
+      { id: 6, pts: [[80,24], [64,24], [64,32]], dir: [0, 1] },
+      // Center cup maze
+      { id: 7, pts: [[36,32], [42,32], [42,40], [58,40], [58,32], [64,32]], dir: [1, 0] },
+      { id: 8, pts: [[42,40], [42,48], [58,48]], dir: [1, 0] },
+      { id: 9, pts: [[28,44], [38,44], [38,54], [50,54]], dir: [1, 0] },
+      { id: 10, pts: [[72,44], [62,44], [62,54], [50,54]], dir: [-1, 0] },
+      // Stem & Base
+      { id: 11, pts: [[50,54], [50,66]], dir: [0, 1] },
+      { id: 12, pts: [[50,66], [42,66], [42,76], [32,76]], dir: [-1, 0] },
+      { id: 13, pts: [[50,66], [58,66], [58,76], [68,76]], dir: [1, 0] },
+      { id: 14, pts: [[32,76], [32,86], [48,86]], dir: [1, 0] },
+      { id: 15, pts: [[68,76], [68,86], [52,86]], dir: [-1, 0] },
+      { id: 16, pts: [[28,88], [72,88]], dir: [1, 0] }
     ]
   }
 ];
 
-// --- Procedural Level Data ---
-function getLevel(lvl) {
-  const idx = (lvl - 1) % SILHOUETTE_LEVELS.length;
-  const base = JSON.parse(JSON.stringify(SILHOUETTE_LEVELS[idx]));
-  return base;
+// --- Confetti FX ---
+const confettiCanvas = document.getElementById('confetti-canvas');
+const cctx = confettiCanvas.getContext('2d');
+let particles = [];
+
+function fireConfetti() {
+  confettiCanvas.width = window.innerWidth;
+  confettiCanvas.height = window.innerHeight;
+  particles = [];
+  const colors = ['#f59e0b', '#38bdf8', '#ef4444', '#10b981', '#a855f7'];
+  for (let i = 0; i < 60; i++) {
+    particles.push({
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+      vx: (Math.random() - 0.5) * 14,
+      vy: (Math.random() - 0.5) * 16 - 4,
+      size: Math.random() * 8 + 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      alpha: 1,
+      rot: Math.random() * Math.PI,
+      vrot: (Math.random() - 0.5) * 0.2
+    });
+  }
+  animateConfetti();
 }
 
-// --- Game State ---
-let currentLvl = 10;
+function animateConfetti() {
+  cctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+  particles.forEach((p, i) => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.4;
+    p.rot += p.vrot;
+    p.alpha -= 0.015;
+
+    cctx.save();
+    cctx.globalAlpha = Math.max(0, p.alpha);
+    cctx.translate(p.x, p.y);
+    cctx.rotate(p.rot);
+    cctx.fillStyle = p.color;
+    cctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+    cctx.restore();
+  });
+  particles = particles.filter(p => p.alpha > 0);
+  if (particles.length > 0) requestAnimationFrame(animateConfetti);
+}
+
+// --- Game State & Execution ---
+let currentLevelIndex = 0;
 let lives = 5;
 let hints = 3;
 let activeLines = [];
 let animLines = [];
 let errorLine = null;
-let errorTimeout = 0;
+let errorTimer = 0;
 let hintLineId = null;
 const themes = ["parchment", "dark", "mint", "rose"];
 let currentTheme = 0;
 
-const canvas = document.getElementById('puzzle-canvas');
+const canvas = document.getElementById('game-canvas');
 const ctx = canvas.getContext('2d');
 
-function initCanvas() {
-  const container = document.getElementById('canvas-container');
-  const rect = container.getBoundingClientRect();
+function resize() {
+  const wrapper = document.getElementById('canvas-wrapper');
+  const rect = wrapper.getBoundingClientRect();
   const sz = Math.min(rect.width, rect.height, 420);
   canvas.width = sz * window.devicePixelRatio;
   canvas.height = sz * window.devicePixelRatio;
@@ -543,18 +624,17 @@ function initCanvas() {
   ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
   render();
 }
+window.addEventListener('resize', resize);
 
-window.addEventListener('resize', initCanvas);
+function loadLevel(idx) {
+  currentLevelIndex = (idx + LEVELS.length) % LEVELS.length;
+  const data = JSON.parse(JSON.stringify(LEVELS[currentLevelIndex]));
 
-function startLevel(lvl) {
-  currentLvl = lvl;
   lives = 5;
   hintLineId = null;
-  document.getElementById('level-title').innerText = `Level ${lvl}`;
+  document.getElementById('level-title').innerText = `Level ${data.level}`;
+  document.getElementById('bottom-banner').innerText = data.banner;
   updateLives();
-
-  const data = getLevel(lvl);
-  document.getElementById('bottom-banner').innerText = data.banner || "TAP TO CLEAR";
 
   activeLines = data.lines.map(l => ({
     ...l,
@@ -562,6 +642,7 @@ function startLevel(lvl) {
     isEscaping: false
   }));
 
+  hideHand();
   render();
 }
 
@@ -575,34 +656,32 @@ function updateLives() {
   }
 }
 
-// Raycast & Segment Intersection Check
+// Raycast: Can arrow escape forward without colliding with any other line?
 function canEscape(line) {
   const head = line.pts[line.pts.length - 1];
   const [dx, dy] = line.dir;
   const rayStart = head;
-  const rayEnd = [head[0] + dx * 250, head[1] + dy * 250];
+  const rayEnd = [head[0] + dx * 260, head[1] + dy * 260];
 
   for (let other of activeLines) {
     if (other.id === line.id || other.isEscaping) continue;
     for (let i = 0; i < other.pts.length - 1; i++) {
-      const p1 = other.pts[i];
-      const p2 = other.pts[i + 1];
-      if (lineIntersect(rayStart, rayEnd, p1, p2)) {
-        return false; // Intersects another line!
+      if (segmentsCross(rayStart, rayEnd, other.pts[i], other.pts[i + 1])) {
+        return false;
       }
     }
   }
   return true;
 }
 
-function lineIntersect(a, b, c, d) {
+function segmentsCross(a, b, c, d) {
   function ccw(p1, p2, p3) {
     return (p3[1] - p1[1]) * (p2[0] - p1[0]) > (p2[1] - p1[1]) * (p3[0] - p1[0]);
   }
   return (ccw(a,c,d) !== ccw(b,c,d)) && (ccw(a,b,c) !== ccw(a,b,d));
 }
 
-function pointToSegDist(p, a, b) {
+function distToSegment(p, a, b) {
   const l2 = (b[0]-a[0])**2 + (b[1]-a[1])**2;
   if (l2 === 0) return Math.hypot(p[0]-a[0], p[1]-a[1]);
   let t = ((p[0]-a[0])*(b[0]-a[0]) + (p[1]-a[1])*(b[1]-a[1])) / l2;
@@ -610,13 +689,13 @@ function pointToSegDist(p, a, b) {
   return Math.hypot(p[0] - (a[0] + t*(b[0]-a[0])), p[1] - (a[1] + t*(b[1]-a[1])));
 }
 
-function findClickedLine(nx, ny) {
+function getClickedLine(nx, ny) {
   let closest = null;
-  let minDist = 6;
+  let minDist = 6.5;
   for (let line of activeLines) {
     if (line.isEscaping) continue;
     for (let i = 0; i < line.pts.length - 1; i++) {
-      const d = pointToSegDist([nx, ny], line.pts[i], line.pts[i+1]);
+      const d = distToSegment([nx, ny], line.pts[i], line.pts[i+1]);
       if (d < minDist) {
         minDist = d;
         closest = line;
@@ -626,45 +705,47 @@ function findClickedLine(nx, ny) {
   return closest;
 }
 
-function handleTap(e) {
+function onCanvasTap(e) {
   const rect = canvas.getBoundingClientRect();
   const cx = e.clientX || (e.touches && e.touches[0].clientX);
   const cy = e.clientY || (e.touches && e.touches[0].clientY);
   const x = ((cx - rect.left) / rect.width) * 100;
   const y = ((cy - rect.top) / rect.height) * 100;
 
-  const target = findClickedLine(x, y);
+  const target = getClickedLine(x, y);
   if (!target) return;
 
+  hideHand();
+
   if (canEscape(target)) {
-    // Escapes!
-    playAudio('escape');
+    // Escapes smoothly!
+    AudioEngine.playEscape();
     target.isEscaping = true;
     animLines.push(target);
     if (hintLineId === target.id) hintLineId = null;
   } else {
     // Blocked!
-    playAudio('thud');
+    AudioEngine.playThud();
     errorLine = target;
-    errorTimeout = Date.now() + 300;
+    errorTimer = Date.now() + 320;
     lives--;
     updateLives();
 
     if (lives <= 0) {
-      setTimeout(() => document.getElementById('gameover-modal').classList.add('active'), 300);
+      setTimeout(() => document.getElementById('gameover-modal').classList.add('active'), 320);
     }
   }
 }
 
-canvas.addEventListener('click', handleTap);
+canvas.addEventListener('click', onCanvasTap);
 
-// Render loop
+// Animation Render Loop
 function render() {
   const sz = canvas.width / window.devicePixelRatio;
   ctx.clearRect(0, 0, sz, sz);
 
   const style = getComputedStyle(document.body);
-  const lineCol = style.getPropertyValue('--line-color').trim();
+  const lineCol = style.getPropertyValue('--line-main').trim();
   const highlightCol = style.getPropertyValue('--line-highlight').trim();
   const errorCol = style.getPropertyValue('--line-error').trim();
 
@@ -673,30 +754,32 @@ function render() {
     if (l.isEscaping) return;
     let col = lineCol;
     if (l.id === hintLineId) col = highlightCol;
-    if (errorLine && errorLine.id === l.id && Date.now() < errorTimeout) col = errorCol;
-    drawPoly(l, col, sz);
+    if (errorLine && errorLine.id === l.id && Date.now() < errorTimer) col = errorCol;
+    drawPolyLine(l, col, sz);
   });
 
-  // Animating escape lines
+  // Animating lines
   for (let i = animLines.length - 1; i >= 0; i--) {
     const l = animLines[i];
-    l.animT += 0.08;
+    l.animT += 0.085;
 
-    const offset = l.animT * 120;
+    const offset = l.animT * 130;
     const [dx, dy] = l.dir;
     const shifted = {
       ...l,
       pts: l.pts.map(p => [p[0] + dx * offset, p[1] + dy * offset])
     };
 
-    drawPoly(shifted, highlightCol, sz, Math.max(0, 1 - l.animT));
+    drawPolyLine(shifted, highlightCol, sz, Math.max(0, 1 - l.animT));
 
     if (l.animT >= 1) {
       animLines.splice(i, 1);
       activeLines = activeLines.filter(item => item.id !== l.id);
 
+      // Win check
       if (activeLines.length === 0) {
-        playAudio('win');
+        AudioEngine.playWin();
+        fireConfetti();
         setTimeout(() => document.getElementById('win-modal').classList.add('active'), 300);
       }
     }
@@ -705,12 +788,12 @@ function render() {
   requestAnimationFrame(render);
 }
 
-function drawPoly(line, col, sz, opacity = 1) {
+function drawPolyLine(line, col, sz, alpha = 1) {
   if (line.pts.length < 2) return;
-  const scale = sz / 100;
+  const s = sz / 100;
 
   ctx.save();
-  ctx.globalAlpha = opacity;
+  ctx.globalAlpha = alpha;
   ctx.strokeStyle = col;
   ctx.fillStyle = col;
   ctx.lineWidth = 4.2;
@@ -718,18 +801,17 @@ function drawPoly(line, col, sz, opacity = 1) {
   ctx.lineJoin = 'round';
 
   ctx.beginPath();
-  ctx.moveTo(line.pts[0][0] * scale, line.pts[0][0] * scale); // Initial point
-  ctx.moveTo(line.pts[0][0] * scale, line.pts[0][1] * scale);
+  ctx.moveTo(line.pts[0][0] * s, line.pts[0][1] * s);
   for (let i = 1; i < line.pts.length; i++) {
-    ctx.lineTo(line.pts[i][0] * scale, line.pts[i][1] * scale);
+    ctx.lineTo(line.pts[i][0] * s, line.pts[i][1] * s);
   }
   ctx.stroke();
 
-  // Arrowhead
+  // Arrow Head
   const head = line.pts[line.pts.length - 1];
   const [dx, dy] = line.dir;
-  const hx = head[0] * scale;
-  const hy = head[1] * scale;
+  const hx = head[0] * s;
+  const hy = head[1] * s;
   const angle = Math.atan2(dy, dx);
   const arrowL = 8.5;
 
@@ -743,15 +825,28 @@ function drawPoly(line, col, sz, opacity = 1) {
   ctx.restore();
 }
 
-// UI Buttons
+function showHandOn(line) {
+  const prompt = document.getElementById('hand-prompt');
+  const head = line.pts[line.pts.length - 1];
+  const rect = canvas.getBoundingClientRect();
+  prompt.style.left = (rect.left + (head[0]/100)*rect.width - 20) + 'px';
+  prompt.style.top = (rect.top + (head[1]/100)*rect.height - 20) + 'px';
+  prompt.style.display = 'block';
+}
+
+function hideHand() {
+  document.getElementById('hand-prompt').style.display = 'none';
+}
+
+// UI Wiring
 document.getElementById('btn-next').onclick = () => {
   document.getElementById('win-modal').classList.remove('active');
-  startLevel(currentLvl + 1);
+  loadLevel(currentLevelIndex + 1);
 };
 
 document.getElementById('btn-retry').onclick = () => {
   document.getElementById('gameover-modal').classList.remove('active');
-  startLevel(currentLvl);
+  loadLevel(currentLevelIndex);
 };
 
 document.getElementById('btn-hint').onclick = () => {
@@ -759,6 +854,7 @@ document.getElementById('btn-hint').onclick = () => {
   const free = activeLines.find(l => !l.isEscaping && canEscape(l));
   if (free) {
     hintLineId = free.id;
+    showHandOn(free);
     hints--;
     document.getElementById('hint-badge').innerText = hints;
   }
@@ -771,30 +867,28 @@ document.getElementById('btn-theme').onclick = () => {
   else document.body.setAttribute('data-theme', t);
 };
 
+document.getElementById('btn-prev').onclick = () => loadLevel(currentLevelIndex - 1);
+
 document.getElementById('btn-levels').onclick = () => {
   const g = document.getElementById('levels-grid');
   g.innerHTML = '';
-  for (let i = 1; i <= 20; i++) {
+  LEVELS.forEach((lvl, i) => {
     const btn = document.createElement('button');
-    btn.className = 'lvl-btn' + (i === currentLvl ? ' active' : '');
-    btn.innerText = `${i}`;
+    btn.className = 'lvl-btn' + (i === currentLevelIndex ? ' active' : '');
+    btn.innerText = `Lvl ${lvl.level}`;
     btn.onclick = () => {
       document.getElementById('levels-modal').classList.remove('active');
-      startLevel(i);
+      loadLevel(i);
     };
     g.appendChild(btn);
-  }
+  });
   document.getElementById('levels-modal').classList.add('active');
 };
 document.getElementById('btn-close-levels').onclick = () => document.getElementById('levels-modal').classList.remove('active');
 
-document.getElementById('btn-prev').onclick = () => {
-  if (currentLvl > 1) startLevel(currentLvl - 1);
-};
-
-// Start
-initCanvas();
-startLevel(10); // Start on Level 10 (Trophy 🏆) like screenshot!
+// Initialize & Launch
+resize();
+loadLevel(0); // Starts on Level 40 Puppy matching Screenshot 1!
 </script>
 </body>
 </html>
