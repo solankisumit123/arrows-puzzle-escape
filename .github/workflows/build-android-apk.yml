@@ -3,7 +3,7 @@
 on:
   push:
     branches: [ main, master ]
-  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+  workflow_dispatch:
 
 jobs:
   buildAndroid:
@@ -14,15 +14,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
-
-      - name: Cache Library folder
-        uses: actions/cache@v4
-        with:
-          path: Library
-          key: Library-Android-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
-          restore-keys: |
-            Library-Android-
-            Library-
 
       - name: Free Disk Space
         uses: jlumbroso/free-disk-space@main
@@ -44,11 +35,11 @@ jobs:
           targetPlatform: Android
           buildName: ArrowsPuzzleEscape
           buildsPath: build/Android
-          androidAppBundle: false # Set true if you want .aab for Google Play Store
+          androidExportType: 'androidPackage'
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ArrowsPuzzleEscape-APK
-          path: build/Android/Android.apk
+          path: build/Android/**/*.apk
           retention-days: 14
